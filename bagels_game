@@ -1,0 +1,48 @@
+# Bagels Game by Al Sweigart
+
+# This first part will explain the rules of bagel game and get user inputs to define the games parameters.
+print('Welcome to the Bagels Game by Al Sweigart!\nA deductive logic game where you try to guess the Secret Number based on clues!')
+
+#todo make this a function
+while True:
+    nd_string = input('How long of a number would you like?\nInput the number of digits you would like your number to '
+                      'be (1 - 10): ')
+    if nd_string == 'exit':
+        print('Thanks for playing!')
+        exit()
+    try:
+        num_digits = int(nd_string)
+        if num_digits > 10:
+            print('Please enter a number between 1 - 10.')
+            continue
+        else:
+            break
+    except:
+        print('Please enter a number between 1 - 10')
+        continue
+
+while True:
+    mg_string = input('How many guesses would you like?\nInput the number of guesses you would like (1 - 50): ')
+    if mg_string == 'exit':
+        print('Thanks for playing!')
+        exit()
+    try:
+        max_guesses = int(mg_string)
+        if max_guesses > 50:
+            print('Please enter a number between 1 - 50.')
+            continue
+        else:
+            break
+
+    except:
+        print('Please enter a number between 1 - 50')
+        continue
+print(f'\nYour secret number is {num_digits}-digits long. and you have {max_guesses} guesses to discover the secret '
+      f'number.')
+print('''Try to guess what it is. Here are some clues:
+ When I say:       That means:
+ Pico              One digit is correct but in the wrong position.
+ Fermi             One digit is correct and in the right position.
+ Bagels            No digit is correct.
+ 
+ For example, if the secret number was 248 and your guess was 843, the clues would be Fermi Pico.''')
