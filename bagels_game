@@ -1,48 +1,82 @@
-# Bagels Game by Al Sweigart
+# Notes for Aaron: I'm having a hard time having the user define variables and then accessing them from the various functions. I can write the functions on their
+own, but I'm unable to connect everything. I think the structure of how I'm writing the program needs to change, but  I don't know how I want to avoid using global :(
 
-# This first part will explain the rules of bagel game and get user inputs to define the games parameters.
-print('Welcome to the Bagels Game by Al Sweigart!\nA deductive logic game where you try to guess the Secret Number based on clues!')
+# Bagels Game based on Al Sweigart's program in No Starch Press' Big Book of Small Python Projects
+from random import *
 
-#todo make this a function
-while True:
-    nd_string = input('How long of a number would you like?\nInput the number of digits you would like your number to '
-                      'be (1 - 10): ')
-    if nd_string == 'exit':
-        print('Thanks for playing!')
-        exit()
-    try:
-        num_digits = int(nd_string)
-        if num_digits > 10:
-            print('Please enter a number between 1 - 10.')
+# These two variables are constants
+MAX_DIGITS = 10
+MAX_GUESSES = 50
+
+
+def exit_game():
+    print('\nThanks for playing!\nProgram by David Wylie, 2022')
+    exit()
+
+
+def invalid_statement(a):
+    print(f'Please enter a number between 1 - {a}].')
+
+
+def initial_inputs(num_digits, num_guesses):
+    # Welcome message
+    num_digits = 0
+    num_guesses = 0
+
+    print(
+        'Welcome to the Bagels Game!\nBagels is a deductive logic game where you try to guess the '
+        'Secret Number based on clues!')
+
+    while True:
+        nd_string = input(f'\nHow long of a secret number would you like?\nInput the number of digits you would like '
+                          f'your number to be (1 - {MAX_DIGITS}): ')
+        if nd_string == 'exit':
+            exit_game()
+
+        try:
+            num_digits = int(nd_string)
+            if num_digits > MAX_DIGITS:
+                invalid_statement(MAX_DIGITS)
+                continue
+            else:
+                break
+        except:
+            invalid_statement(MAX_DIGITS)
             continue
-        else:
-            break
-    except:
-        print('Please enter a number between 1 - 10')
-        continue
 
-while True:
-    mg_string = input('How many guesses would you like?\nInput the number of guesses you would like (1 - 50): ')
-    if mg_string == 'exit':
-        print('Thanks for playing!')
-        exit()
-    try:
-        max_guesses = int(mg_string)
-        if max_guesses > 50:
-            print('Please enter a number between 1 - 50.')
+    while True:
+        gi_string = input(
+            f'\nHow many guesses would you like?\nInput the number of guesses you would like (1 - {MAX_GUESSES}): ')
+        if gi_string == 'exit':
+            exit_game()
+        try:
+            num_guesses = int(gi_string)
+            if num_guesses > MAX_GUESSES:
+                invalid_statement(MAX_GUESSES)
+                continue
+            else:
+                break
+
+        except:
+            invalid_statement(MAX_GUESSES)
             continue
-        else:
-            break
+    print(f'\nYour secret number is {num_digits}-digits long. and you have {num_guesses} guesses to discover the secret'
+          f' number.')
+    print('''Try to guess what it is. Here are some clues:
+    When I say:       That means:
+    Pico              One digit is correct but in the wrong position.
+    Fermi             One digit is correct and in the right position.
+    Bagels            No digit is correct.
 
-    except:
-        print('Please enter a number between 1 - 50')
-        continue
-print(f'\nYour secret number is {num_digits}-digits long. and you have {max_guesses} guesses to discover the secret '
-      f'number.')
-print('''Try to guess what it is. Here are some clues:
- When I say:       That means:
- Pico              One digit is correct but in the wrong position.
- Fermi             One digit is correct and in the right position.
- Bagels            No digit is correct.
- 
- For example, if the secret number was 248 and your guess was 843, the clues would be Fermi Pico.''')
+    For example, if the secret number was 248 and your guess was 843, the clues would be Fermi Pico.''')
+
+# Here's an exampe of trying to access a user defined variable from outside the function and it not working.
+def create_secret_number():
+    numbers = list('0123456789')
+    shuffle(numbers)
+    secret_number = ''
+    for i in range(num_digits):
+        secret_number += str(numbers[i])
+    print(secret_number)
+
+create_secret_number()
